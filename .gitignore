@@ -1,2 +1,2 @@
 /.venv/
-/.env/
+git rm --cached .env.env
