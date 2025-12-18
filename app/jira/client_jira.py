@@ -22,6 +22,7 @@ def adf_doc(text: str) -> dict:
         ]
     }
 
+
 def jira_client() -> httpx.Client:
     # Jira Cloud: Basic Auth mit E-Mail + API Token :contentReference[oaicite:4]{index=4}
     return httpx.Client(
@@ -46,7 +47,7 @@ def search_issues(jql: str, max_results: int = 10) -> dict:
         return r.json()
 
 
-def add_comment(issue_key: str, comment_text: str) -> dict:
+def add_comment_to_issue(issue_key: str, comment_text: str) -> dict:
     with jira_client() as c:
         payload = {"body": adf_doc(comment_text)}
         r = c.post(f"/rest/api/3/issue/{issue_key}/comment", json=payload)
@@ -62,6 +63,7 @@ def update_description(issue_key: str, new_description: str) -> None:
         payload = {"fields": {"description": new_description}}
         r = c.put(f"/rest/api/3/issue/{issue_key}", json=payload)
         r.raise_for_status()
+
 
 def update_summary(issue_key: str, new_summary: str) -> None:
     with jira_client() as c:
